@@ -27,7 +27,7 @@ export function useHalftone() {
   const [dotColor, setDotColor] = useState('#000000');
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [gradientColor, setGradientColor] = useState('#000000');
-  const [scale, setScale] = useState(0.8); // Default to 80% to match your perfect setting
+  const [scale, setScale] = useState(0.68); 
 
   // Auto-rotation effect
   useEffect(() => {
