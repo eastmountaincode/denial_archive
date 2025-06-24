@@ -17,16 +17,18 @@ export interface HalftoneParams {
 
 export function useHalftone() {
   const [isMobile, setIsMobile] = useState(false);
+  const [devicePixelRatio, setDevicePixelRatio] = useState(1);
   
-  // Detect mobile device
+  // Detect mobile device and pixel ratio
   useEffect(() => {
-    const checkMobile = () => {
+    const checkDevice = () => {
       setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+      setDevicePixelRatio(window.devicePixelRatio || 1);
     };
     
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
   }, []);
 
   const [blur, setBlur] = useState(0);
@@ -36,17 +38,24 @@ export function useHalftone() {
   const [linearAngle, setLinearAngle] = useState(45);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
   const [opacity, setOpacity] = useState(1.0);
+  // Helper function to get optimal scale based on device
+  const getOptimalScale = () => {
+    if (devicePixelRatio === 2) return 0.51; // DPR 2: 0.51
+    if (isMobile) return 0.54; // Mobile (other DPR): 0.54
+    return 0.68; // Desktop: 0.68
+  };
+
   const [speed, setSpeed] = useState(isMobile ? 30 : 14); // Mobile: 30, Desktop: 14
   const [dotColor, setDotColor] = useState('#000000');
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [gradientColor, setGradientColor] = useState('#000000');
-  const [scale, setScale] = useState(isMobile ? 0.54 : 0.68); // Mobile: 0.54, Desktop: 0.68
+  const [scale, setScale] = useState(getOptimalScale());
 
-  // Update scale and speed when mobile detection changes
+  // Update scale and speed when device detection changes
   useEffect(() => {
-    setScale(isMobile ? 0.54 : 0.68);
+    setScale(getOptimalScale());
     setSpeed(isMobile ? 30 : 14);
-  }, [isMobile]);
+  }, [isMobile, devicePixelRatio]);
 
   // Auto-rotation effect
   useEffect(() => {
