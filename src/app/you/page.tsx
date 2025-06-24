@@ -5,6 +5,7 @@ import { useHalftone } from "../../hooks/useHalftone";
 import HalftoneBackground from "../../components/HalftoneBackground";
 import HalftoneControls from "../../components/HalftoneControls";
 import YouPageContent from "../../components/YouPageContent";
+import DebugInfo from "../../components/DebugInfo";
 
 export default function YouPage() {
   const { params, controls } = useHalftone();
@@ -22,7 +23,7 @@ export default function YouPage() {
 
       {/* Controls overlay panel (z-index: 50) */}
       {showControls && (
-        <div className="relative z-50">
+        <div className="relative z-60">
           <HalftoneControls
             params={params}
             controls={controls}
@@ -40,6 +41,9 @@ export default function YouPage() {
           Show Controls
         </button>
       )}
+
+      {/* Debug info (temporary) */}
+      <DebugInfo params={params} />
     </div>
   );
 } 

@@ -16,18 +16,37 @@ export interface HalftoneParams {
 }
 
 export function useHalftone() {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Detect mobile device
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const [blur, setBlur] = useState(0);
   const [contrast, setContrast] = useState(100);
   const [dotSize, setDotSize] = useState(3.5);
   const [gridSize, setGridSize] = useState(4.4);
   const [linearAngle, setLinearAngle] = useState(45);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
-  const [opacity, setOpacity] = useState(0.95);
-  const [speed, setSpeed] = useState(14);
+  const [opacity, setOpacity] = useState(1.0);
+  const [speed, setSpeed] = useState(isMobile ? 30 : 14); // Mobile: 30, Desktop: 14
   const [dotColor, setDotColor] = useState('#000000');
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [gradientColor, setGradientColor] = useState('#000000');
-  const [scale, setScale] = useState(0.68); 
+  const [scale, setScale] = useState(isMobile ? 0.54 : 0.68); // Mobile: 0.54, Desktop: 0.68
+
+  // Update scale and speed when mobile detection changes
+  useEffect(() => {
+    setScale(isMobile ? 0.54 : 0.68);
+    setSpeed(isMobile ? 30 : 14);
+  }, [isMobile]);
 
   // Auto-rotation effect
   useEffect(() => {

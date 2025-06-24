@@ -1,12 +1,27 @@
 import { HalftoneParams } from "../hooks/useHalftone";
+import { useEffect, useState } from "react";
 
 interface HalftoneBackgroundProps {
   params: HalftoneParams;
 }
 
 export default function HalftoneBackground({ params }: HalftoneBackgroundProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Detect mobile device
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Calculate how much larger the background needs to be to cover screen after scaling
-  const oversizeMultiplier = Math.max(1.2, 1 / params.scale + 0.2);
+  // Add extra buffer for mobile rendering differences
+  const oversizeMultiplier = Math.max(1.5, 1 / params.scale + 0.5);
   
   return (
     <div 
@@ -22,6 +37,10 @@ export default function HalftoneBackground({ params }: HalftoneBackgroundProps) 
         height: `${100 * oversizeMultiplier}vh`,
         left: `${50 - 50 * oversizeMultiplier}vw`,
         top: `${50 - 50 * oversizeMultiplier}vh`,
+        // Force hardware acceleration on mobile
+        willChange: isMobile ? 'transform' : 'auto',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
       }}
     />
   );
