@@ -59,7 +59,7 @@ export function useHalftone() {
   // Update scale and speed when device detection changes
   useEffect(() => {
     setScale(getOptimalScale());
-    setSpeed(isMobile ? 30 : 14);
+    setSpeed(isMobile ? 33 : 33);
   }, [isMobile, devicePixelRatio]);
 
   // Auto-rotation effect

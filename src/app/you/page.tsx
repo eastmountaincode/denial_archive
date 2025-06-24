@@ -5,7 +5,6 @@ import { useHalftone } from "../../hooks/useHalftone";
 import HalftoneBackground from "../../components/HalftoneBackground";
 import HalftoneControls from "../../components/HalftoneControls";
 import YouPageContent from "../../components/YouPageContent";
-import DebugInfo from "../../components/DebugInfo";
 
 export default function YouPage() {
   const { params, controls } = useHalftone();
@@ -32,18 +31,7 @@ export default function YouPage() {
         </div>
       )}
 
-      {/* Show Controls button (z-index: 40) */}
-      {!showControls && (
-        <button
-          onClick={() => setShowControls(true)}
-          className="fixed top-4 left-4 bg-black/70 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-black/80 backdrop-blur-sm z-40 cursor-pointer"
-        >
-          Show Controls
-        </button>
-      )}
 
-      {/* Debug info (temporary) */}
-      <DebugInfo params={params} />
     </div>
   );
 } 
