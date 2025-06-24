@@ -19,14 +19,20 @@ export default function Slider({
   disabled = false,
   className = ""
 }: SliderProps) {
+  // Helper function to round to the correct number of decimal places
+  const roundToStep = (value: number) => {
+    const decimals = (step.toString().split('.')[1] || '').length;
+    return parseFloat((Math.round(value / step) * step).toFixed(decimals));
+  };
+
   const handleDecrement = () => {
     const newValue = Math.max(min, value - step);
-    onChange(newValue);
+    onChange(roundToStep(newValue));
   };
 
   const handleIncrement = () => {
     const newValue = Math.min(max, value + step);
-    onChange(newValue);
+    onChange(roundToStep(newValue));
   };
 
   return (
@@ -56,7 +62,10 @@ export default function Slider({
           max={max}
           step={step}
           value={value}
-          onChange={(e) => onChange(parseFloat(e.target.value))}
+          onChange={(e) => {
+            const rawValue = parseFloat(e.target.value);
+            onChange(roundToStep(rawValue));
+          }}
           disabled={disabled}
           className={`flex-1 h-2 bg-gray-200 rounded-lg appearance-none ${
             disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'

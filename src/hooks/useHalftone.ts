@@ -12,20 +12,22 @@ export interface HalftoneParams {
   dotColor: string;
   backgroundColor: string;
   gradientColor: string;
+  scale: number;
 }
 
 export function useHalftone() {
   const [blur, setBlur] = useState(0);
   const [contrast, setContrast] = useState(100);
-  const [dotSize, setDotSize] = useState(0.9);
-  const [gridSize, setGridSize] = useState(1.2);
+  const [dotSize, setDotSize] = useState(3.5);
+  const [gridSize, setGridSize] = useState(4.4);
   const [linearAngle, setLinearAngle] = useState(45);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
-  const [opacity, setOpacity] = useState(0.19);
-  const [speed, setSpeed] = useState(83);
-  const [dotColor, setDotColor] = useState('#DFD816');
-  const [backgroundColor, setBackgroundColor] = useState('#30302C');
-  const [gradientColor, setGradientColor] = useState('#090707');
+  const [opacity, setOpacity] = useState(0.95);
+  const [speed, setSpeed] = useState(14);
+  const [dotColor, setDotColor] = useState('#000000');
+  const [backgroundColor, setBackgroundColor] = useState('#ffffff');
+  const [gradientColor, setGradientColor] = useState('#000000');
+  const [scale, setScale] = useState(0.8); // Default to 80% to match your perfect setting
 
   // Auto-rotation effect
   useEffect(() => {
@@ -50,6 +52,7 @@ export function useHalftone() {
     dotColor,
     backgroundColor,
     gradientColor,
+    scale,
   };
 
   const controls = {
@@ -64,6 +67,7 @@ export function useHalftone() {
     setDotColor,
     setBackgroundColor,
     setGradientColor,
+    setScale,
   };
 
   return { params, controls };

@@ -15,6 +15,7 @@ interface HalftoneControlsProps {
     setDotColor: (value: string) => void;
     setBackgroundColor: (value: string) => void;
     setGradientColor: (value: string) => void;
+    setScale: (value: number) => void;
   };
   onHide: () => void;
 }
@@ -118,6 +119,15 @@ export default function HalftoneControls({ params, controls, onHide }: HalftoneC
         max={1}
         step={0.01}
         onChange={controls.setOpacity}
+      />
+
+      <Slider
+        label={`Scale: ${params.scale}`}
+        value={params.scale}
+        min={0.1}
+        max={2.0}
+        step={0.01}
+        onChange={controls.setScale}
       />
 
       {/* Color Controls */}
